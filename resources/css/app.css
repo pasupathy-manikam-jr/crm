@@ -1,0 +1,257 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+@import '@fontsource-variable/geist';
+@import '@fontsource-variable/geist-mono';
+
+@source '../views';
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * OricCRM "Ledger": shadcn Lyra (boxy, hairline borders), zinc neutrals and one
+ * deep emerald accent. Geist for text, Geist Mono for figures and IDs.
+ */
+@theme inline {
+    --font-sans: 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
+    --font-mono: 'Geist Mono Variable', ui-monospace, monospace;
+    --font-heading: var(--font-sans);
+
+    /*
+     * Lyra sets most UI text in text-xs, which reads small; the two smallest steps are
+     * raised (12→14px, 14→15px) so text grows without inflating spacing.
+     */
+    --text-xs: 0.875rem;
+    --text-xs--line-height: 1.25rem;
+    --text-sm: 0.9375rem;
+    --text-sm--line-height: 1.375rem;
+
+    --radius-sm: calc(var(--radius) - 2px);
+    --radius-md: var(--radius);
+    --radius-lg: calc(var(--radius) + 2px);
+    --radius-xl: calc(var(--radius) + 4px);
+
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+    --color-popover: var(--popover);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
+    --color-success: var(--success);
+    --color-warning: var(--warning);
+    --color-info: var(--info);
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+    --color-chart-1: var(--chart-1);
+    --color-chart-2: var(--chart-2);
+    --color-chart-3: var(--chart-3);
+    --color-chart-4: var(--chart-4);
+    --color-chart-5: var(--chart-5);
+    --color-sidebar: var(--sidebar);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-ring: var(--sidebar-ring);
+    --color-hero: var(--hero);
+    --color-hero-glow: var(--hero-glow);
+    --color-hero-foreground: var(--hero-foreground);
+    --color-hero-muted: var(--hero-muted);
+    --color-hero-line: var(--hero-line);
+
+    /* The sign-in panel's one moment: a deal rides the pipeline from Lead to Won. */
+    --animate-deal-ride: deal-ride 2.6s cubic-bezier(0.65, 0, 0.35, 1) 0.4s both;
+    --animate-stage-fill: stage-fill 0.35s ease-out both;
+    --animate-won-in: won-in 0.4s ease-out 2.9s both;
+    --animate-pending-out: pending-out 0.3s ease-in 2.8s both;
+}
+
+@keyframes deal-ride {
+    from {
+        left: 0%;
+        translate: 0 0;
+    }
+    to {
+        left: 100%;
+        translate: -100% 0;
+    }
+}
+
+@keyframes stage-fill {
+    from {
+        background-color: transparent;
+        box-shadow: none;
+    }
+}
+
+@keyframes won-in {
+    from {
+        opacity: 0;
+        translate: 0 4px;
+    }
+}
+
+@keyframes pending-out {
+    to {
+        opacity: 0;
+    }
+}
+
+:root {
+    --radius: 0.25rem;
+
+    --background: oklch(0.968 0.008 170);
+    --foreground: oklch(0.141 0.005 285.823);
+    --card: oklch(1 0 0);
+    --card-foreground: oklch(0.141 0.005 285.823);
+    --popover: oklch(1 0 0);
+    --popover-foreground: oklch(0.141 0.005 285.823);
+    --primary: oklch(0.508 0.118 165.612);
+    --primary-foreground: oklch(0.979 0.021 166.113);
+    --secondary: oklch(0.967 0.001 286.375);
+    --secondary-foreground: oklch(0.21 0.006 285.885);
+    --muted: oklch(0.948 0.011 168);
+    --muted-foreground: oklch(0.552 0.016 285.938);
+    --accent: oklch(0.955 0.012 166);
+    --accent-foreground: oklch(0.262 0.051 172.552);
+    --destructive: oklch(0.577 0.245 27.325);
+    --destructive-foreground: oklch(0.577 0.245 27.325);
+    --success: oklch(0.527 0.137 150.069);
+    --warning: oklch(0.666 0.179 58.318);
+    --info: oklch(0.546 0.215 262.881);
+    --border: oklch(0.9 0.012 168);
+    --input: oklch(0.88 0.006 286.32);
+    --ring: oklch(0.508 0.118 165.612);
+    --chart-1: oklch(0.508 0.118 165.612);
+    --chart-2: oklch(0.552 0.016 285.938);
+    --chart-3: oklch(0.696 0.17 162.48);
+    --chart-4: oklch(0.37 0.013 285.805);
+    --chart-5: oklch(0.845 0.143 164.978);
+    --sidebar: oklch(0.968 0.008 170);
+    --sidebar-foreground: oklch(0.141 0.005 285.823);
+    --sidebar-primary: oklch(0.508 0.118 165.612);
+    --sidebar-primary-foreground: oklch(0.979 0.021 166.113);
+    --sidebar-accent: oklch(0.955 0.012 166);
+    --sidebar-accent-foreground: oklch(0.262 0.051 172.552);
+    --sidebar-border: oklch(0.912 0.004 286.32);
+    --sidebar-ring: oklch(0.508 0.118 165.612);
+    /* Sign-in panel: deep forest ledger paper, the same in light and dark mode. */
+    --hero: oklch(0.262 0.048 168);
+    --hero-glow: oklch(0.38 0.075 166);
+    --hero-foreground: oklch(0.985 0.01 166);
+    --hero-muted: oklch(0.9 0.045 166);
+    --hero-line: oklch(1 0 0 / 7%);
+}
+
+.dark {
+    --background: oklch(0.155 0.004 286);
+    --foreground: oklch(0.967 0.001 286.375);
+    --card: oklch(0.185 0.005 285.885);
+    --card-foreground: oklch(0.967 0.001 286.375);
+    --popover: oklch(0.205 0.006 285.885);
+    --popover-foreground: oklch(0.967 0.001 286.375);
+    --primary: oklch(0.696 0.17 162.48);
+    --primary-foreground: oklch(0.21 0.04 166);
+    --secondary: oklch(0.255 0.006 286.033);
+    --secondary-foreground: oklch(0.967 0.001 286.375);
+    --muted: oklch(0.235 0.006 286.033);
+    --muted-foreground: oklch(0.705 0.015 286.067);
+    --accent: oklch(0.27 0.03 166);
+    --accent-foreground: oklch(0.905 0.093 164.15);
+    --destructive: oklch(0.704 0.191 22.216);
+    --destructive-foreground: oklch(0.704 0.191 22.216);
+    --success: oklch(0.792 0.209 151.711);
+    --warning: oklch(0.828 0.189 84.429);
+    --info: oklch(0.707 0.165 254.624);
+    --border: oklch(1 0 0 / 9%);
+    --input: oklch(1 0 0 / 14%);
+    --ring: oklch(0.696 0.17 162.48);
+    --chart-1: oklch(0.696 0.17 162.48);
+    --chart-2: oklch(0.705 0.015 286.067);
+    --chart-3: oklch(0.845 0.143 164.978);
+    --chart-4: oklch(0.552 0.016 285.938);
+    --chart-5: oklch(0.508 0.118 165.612);
+    --sidebar: oklch(0.155 0.004 286);
+    --sidebar-foreground: oklch(0.967 0.001 286.375);
+    --sidebar-primary: oklch(0.696 0.17 162.48);
+    --sidebar-primary-foreground: oklch(0.21 0.04 166);
+    --sidebar-accent: oklch(0.27 0.03 166);
+    --sidebar-accent-foreground: oklch(0.905 0.093 164.15);
+    --sidebar-border: oklch(1 0 0 / 9%);
+    --sidebar-ring: oklch(0.696 0.17 162.48);
+}
+
+@layer base {
+    * {
+        @apply border-border outline-ring/50;
+    }
+
+    html {
+        @apply font-sans;
+    }
+
+    /* Everything clickable shows the hand cursor (Tailwind 4 resets buttons to default). */
+    a[href],
+    button:not(:disabled),
+    summary,
+    label[for],
+    [role='button'],
+    [role='menuitem'],
+    [role='menuitemcheckbox'],
+    [role='menuitemradio'],
+    [role='option'],
+    [role='tab'],
+    [role='radio'],
+    [role='checkbox'],
+    [role='combobox'],
+    [cmdk-item] {
+        cursor: pointer;
+    }
+
+    /*
+     * The page sits on a faint mint-grey with two soft glows from the top, so white
+     * tables and dialogs read as surfaces instead of everything being white.
+     */
+    body {
+        @apply bg-background text-foreground antialiased;
+        background-image:
+            radial-gradient(
+                ellipse 70% 45% at 8% -8%,
+                color-mix(in oklch, var(--primary) 16%, transparent),
+                transparent 70%
+            ),
+            radial-gradient(
+                ellipse 55% 40% at 95% -5%,
+                color-mix(in oklch, var(--chart-3) 14%, transparent),
+                transparent 70%
+            );
+        background-attachment: fixed;
+    }
+
+    h1,
+    h2 {
+        text-wrap: balance;
+    }
+}
+
+/* Printing (quotes): plain white page, no glows. */
+@media print {
+    body {
+        background: #fff;
+        background-image: none;
+    }
+}
