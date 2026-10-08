@@ -62,4 +62,14 @@ class LocaleTest extends TestCase
 
         Notification::assertSentTo($owner, ContractRenewalDue::class, fn ($n, array $channels, User $notifiable, string $locale) => $locale === 'zh_CN');
     }
+
+    public function test_the_language_picked_on_the_sign_in_page_follows_into_the_app()
+    {
+        $user = $this->userWithRole(UserRole::SalesRep, Team::factory()->create());
+        $user->update(['locale' => 'en']);
+
+        $this->withCookie('locale', 'ms')->post(route('login.store'), ['email' => $user->email, 'password' => 'password'])->assertRedirect();
+
+        $this->assertSame('ms', $user->fresh()?->locale);
+    }
 }

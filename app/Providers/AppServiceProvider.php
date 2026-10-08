@@ -7,14 +7,17 @@ use App\Models\InboundEmail;
 use App\Models\User;
 use App\Models\Webhook;
 use App\Support\CrmRecords;
+use App\Support\Locales;
 use App\Support\Workflows;
 use Carbon\CarbonImmutable;
+use Illuminate\Auth\Events\Login;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
@@ -48,6 +51,15 @@ class AppServiceProvider extends ServiceProvider
         }
 
         Route::model('email', InboundEmail::class);
+
+        // A language picked on the sign-in page (locale cookie) carries over to the account.
+        Event::listen(Login::class, function (Login $event): void {
+            $locale = request()->cookie('locale');
+
+            if ($event->user instanceof User && is_string($locale) && isset(Locales::SUPPORTED[$locale]) && $event->user->locale !== $locale) {
+                $event->user->forceFill(['locale' => $locale])->save();
+            }
+        });
 
         RateLimiter::for('api', fn (Request $request) => Limit::perMinute(120)->by($request->user()?->id ?: $request->ip()));
 
