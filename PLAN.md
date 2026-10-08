@@ -102,6 +102,11 @@ Every record carries `owner_id` plus timestamps and soft deletes.
 - Lists filter by dropdown and yes/no custom fields (cf_<key>) and sort by any custom field (numbers numerically); CSV export follows the filters.
 - Case SLAs count working time: CRM_WORK_DAYS / CRM_WORK_START / CRM_WORK_END in .env (Mon–Fri 9–18 default), holidays in Admin → Holidays; urgent 4 working hours, high/normal/low 1/3/5 working days. CRM_SLA_BUSINESS_HOURS=false counts every hour. Existing deadlines don't move when holidays change.
 
+### Deployment (2026-10-08)
+
+- GitHub: `pasupathy-manikam-jr/crm` (private). CI `tests.yml` runs `composer ci:check`; `deploy-assets.yml` builds with `APP_PATH_PREFIX=crm` and publishes the `deploy` branch.
+- Staging: https://ui.staging.oriclabdev.com/crm — `~/crm` on the staging box (read-only deploy key `~/.ssh/github_crm`), DB `stagingoriclabde_crm`, symlink `~/ui.staging.oriclabdev.com/public/crm`, cron `schedule:run` every minute (also drains the queue). Update with `cd ~/crm && bash scripts/deploy.sh`. MAIL_MAILER=log until SMTP settings are added.
+
 ### Later, only on request
 
 - **Sales:** forecasting with quotas, price books and bundles, sales orders, purchase orders, vendors and inventory, recurring invoices (in the E-invoice project), round-robin assignment rules, lead scoring.
