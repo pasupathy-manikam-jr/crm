@@ -1,0 +1,1 @@
+import{_ as e,v as t}from"./wayfinder-DLrXbKxV.js";import{t as n}from"./badge-DmiEirOk.js";var r=t(),i=e();function a(e){let t=(0,r.c)(3),{stage:a}=e,o=a.kind===`won`?`success`:a.kind===`lost`?`destructive`:`secondary`,s;return t[0]!==a.name||t[1]!==o?(s=(0,i.jsx)(n,{variant:o,children:a.name}),t[0]=a.name,t[1]=o,t[2]=s):s=t[2],s}export{a as t};
